@@ -82,7 +82,7 @@ public class MainMenu {
             option = scanner.nextInt();
 
             switch (option) {
-                case 1 -> System.out.println("On developmenting... 🤓");
+                case 1 -> tenantMenu.tenantLogin();
                 case 2 -> tenantMenu.registerTenant();
                 case 3 -> {
                     System.out.println("Exiting tenant area...");

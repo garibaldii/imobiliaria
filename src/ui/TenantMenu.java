@@ -2,6 +2,7 @@ package ui;
 
 import actions.validator.InputValidator;
 import controller.TenantController;
+import model.Owner;
 import model.Tenant;
 
 import java.util.Scanner;
@@ -9,7 +10,7 @@ import java.util.Scanner;
 public class TenantMenu {
 
     private final TenantController controller = TenantController.getInstance();
-    private Tenant tenant;
+    private Tenant sessionTenant;
 
     DomesticHouseMenu houseMenu = new DomesticHouseMenu();
     FarmMenu farmMenu = new FarmMenu();
@@ -18,16 +19,40 @@ public class TenantMenu {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public void registerTenant() {
-        System.out.println("Let's create your tenant account 🏠");
-        scanner.nextLine(); // limpa buffer
+    public void tenantLogin() {
+        System.out.println("--- Tenant Login ---");
 
         String name = InputValidator.readValidName();
 
         String cpf = InputValidator.readValidCPF();
 
-        tenant = new Tenant(name, cpf);
-        controller.postTenant(tenant);
+        Tenant loggedTenant = controller.login(name, cpf);
+
+
+        sessionTenant = loggedTenant;
+        System.out.println("Login successful! Redirecting to your dashboard...");
+        executeTenantMenu();
+//        } else {
+//            System.out.println("Login failed. Do you want to try again? (Y/N)");
+//            String option = scanner.nextLine().trim().toUpperCase();
+//            if (option.equals("Y")) {
+//                ownerLogin();
+//            } else {
+//                System.out.println("Exiting Owner login...");
+//            }
+//        }
+    }
+
+
+    public void registerTenant() {
+        System.out.println("Let's create your tenant account 🏠");
+
+        String name = InputValidator.readValidName();
+
+        String cpf = InputValidator.readValidCPF();
+
+        sessionTenant = new Tenant(name, cpf);
+        controller.postTenant(sessionTenant);
 
         System.out.println();
         System.out.println("Tenant account created successfully 🎉");
@@ -42,7 +67,7 @@ public class TenantMenu {
         int option = -1;
 
         while (true) {
-            System.out.println("Garibaldi's Real Estate Broker: " + "WELCOME " + tenant.getName() + "!");
+            System.out.println("Garibaldi's Real Estate Broker: " + "WELCOME " + sessionTenant.getName() + "!");
             System.out.println("🏡 How can I help you?");
             System.out.println("1 - View Apartments");
             System.out.println("2 - View Domestic Houses");
@@ -71,10 +96,10 @@ public class TenantMenu {
 
     private void viewContracts() {
         System.out.println("📜 Showing your contracts...");
-        if (tenant.getContract() == null) {
+        if (sessionTenant.getContract() == null) {
             System.out.println("You have no contracts yet.");
         } else {
-            System.out.println(tenant.getContract());
+            System.out.println(sessionTenant.getContract());
         }
     }
 
@@ -88,7 +113,7 @@ public class TenantMenu {
 
         Tenant updatedData = new Tenant(name, cpf);
 
-        controller.updateTenantById(tenant.getId(),updatedData);
+        controller.updateTenantById(sessionTenant.getId(),updatedData);
 
         System.out.println(updatedData);
 
