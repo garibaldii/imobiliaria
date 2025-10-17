@@ -7,7 +7,7 @@ import java.util.List;
 
 public class FarmController {
 
-    private static FarmController instance;
+    private static FarmController instance = new FarmController();
 
     public static FarmController getInstance() {
         return instance;
