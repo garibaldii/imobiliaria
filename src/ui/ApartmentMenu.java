@@ -28,21 +28,9 @@ public class ApartmentMenu {
 
         if (apartments.isEmpty()) {
             System.out.println("😭 No available apartments at the moment.");
-            return;
         }
 
-        System.out.println("🏢 Available Apartments:");
-        for (Apartment apt : apartments) {
-            System.out.println("=======================================");
-            System.out.println("Apartment ID: " + apt.getId());
-            System.out.println("Address: " + apt.getPostalCode() + ", No. " + apt.getNumber());
-            System.out.println("Rent Price: R$ " + apt.getRentPrice());
-            System.out.println("Floor Number: " + apt.getFloorNumber());
-            System.out.println("Type: " + apt.getType());
-            System.out.println("Has Elevator: " + (apt.isHasElevator() ? "Yes" : "No"));
-            System.out.println("Has Balcony: " + (apt.isHasBalcony() ? "Yes" : "No"));
-            System.out.println("=======================================\n");
-        }
+
     }
 
 

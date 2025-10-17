@@ -16,6 +16,7 @@ public class ApartmentController {
     List<Apartment> apartments = new ArrayList<>();
 
     public List<Apartment> getApartments() {
+        System.out.println(apartments);
         return apartments;
     }
 

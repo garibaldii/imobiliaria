@@ -108,7 +108,7 @@ public class MainMenu {
             option = scanner.nextInt();
 
             switch (option) {
-//                case 1 -> ;
+                case 1 -> ownerMenu.ownerLogin();
                 case 2 -> ownerMenu.registerOwner();
                 case 3 -> {
                     System.out.println("Returning to main menu...");

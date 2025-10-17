@@ -69,18 +69,9 @@ public class FarmMenu {
 
         if (farms.isEmpty()) {
             System.out.println("😭 No available farms at the moment.");
-            return;
         }
 
-        System.out.println("🌾 Available Farms:");
-        for (Farm farm : farms) {
-            System.out.println("=======================================");
-            System.out.println("Farm ID: " + farm.getId());
-            System.out.println("Address: " + farm.getPostalCode() + ", No. " + farm.getNumber());
-            System.out.println("Rent Price: R$ " + farm.getRentPrice());
-            System.out.println("Type: " + farm.getType());
-            System.out.println("=======================================\n");
-        }
+
     }
 
 }

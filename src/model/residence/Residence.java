@@ -95,7 +95,7 @@ public abstract class Residence {
                 .append(", No. ").append(number).append("\n");
         sb.append("👤 Owner: ").append(owner != null ? owner.getName() : "No owner assigned").append("\n");
         sb.append("💰 Rent Price: R$ ").append(rentPrice).append("\n");
-        sb.append("📦 Status: ").append(rented ? "Rented" : "Available").append("\n");
+        sb.append("📦 Status: ").append(rented ? "Rented" : "Available, not rented").append("\n");
         sb.append("🏷️ Type: ").append(getType()).append("\n"); // <-- adicionando o type
 
         if (condominium != null) {

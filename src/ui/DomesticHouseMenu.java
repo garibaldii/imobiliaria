@@ -16,7 +16,7 @@ import java.util.Scanner;
 public class DomesticHouseMenu {
 
     private final Scanner scanner = new Scanner(System.in);
-    DomesticHouseController controller = new DomesticHouseController();
+    DomesticHouseController controller = DomesticHouseController.getInstance();
 
     public DomesticHouse postHouse(Owner owner) {
 
@@ -42,7 +42,6 @@ public class DomesticHouseMenu {
             int option = Integer.parseInt(scanner.nextLine());
 
             if (houseTypes.get(option) != null) {
-                scanner.nextLine(); // limpar o buffer do Enter
                 selectedType = houseTypes.get(option);
             }
         }
@@ -87,19 +86,8 @@ public class DomesticHouseMenu {
 
         if (houses.isEmpty()) {
             System.out.println("😭 No available houses at the moment.");
-            return;
         }
 
-        System.out.println("🏡 Available Houses:");
-        for (DomesticHouse house : houses) {
-            System.out.println("=======================================");
-            System.out.println("House ID: " + house.getId());
-            System.out.println("Address: " + house.getPostalCode() + ", No. " + house.getNumber());
-            System.out.println("Rent Price: R$ " + house.getRentPrice());
-            System.out.println("Type: " + house.getType());
-            System.out.println("Has Pool: " + (house.isHasPool() ? "Yes" : "No"));
-            System.out.println("=======================================\n");
-        }
     }
 
 }

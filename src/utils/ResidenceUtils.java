@@ -5,6 +5,7 @@ import model.Owner;
 import model.residence.Residence;
 
 
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class ResidenceUtils {
@@ -14,13 +15,14 @@ public class ResidenceUtils {
         System.out.println("--- Residence Data ---");
 
         // --- Dados básicos ---
-        System.out.print("Postal Code: ");
-        String postalCode = scanner.nextLine();
+        System.out.print("Postal Code ");
+        String postalCode = String.valueOf(InputValidator.readPositiveInt());
 
+        System.out.println("House ");
         int number = InputValidator.readPositiveInt();
 
         // --- Dados do aluguel ---
-        System.out.print("Rent Price: ");
+        System.out.print("Rent Price ");
         int rentPrice = InputValidator.readPositiveInt();
 
         boolean rented = false; // inicializa como disponível
