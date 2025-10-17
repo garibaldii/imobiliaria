@@ -1,11 +1,10 @@
-package utils;
+package actions.utils;
 
 import actions.validator.InputValidator;
 import model.Owner;
 import model.residence.Residence;
 
 
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class ResidenceUtils {
