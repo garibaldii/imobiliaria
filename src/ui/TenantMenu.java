@@ -32,15 +32,6 @@ public class TenantMenu {
         sessionTenant = loggedTenant;
         System.out.println("Login successful! Redirecting to your dashboard...");
         executeTenantMenu();
-//        } else {
-//            System.out.println("Login failed. Do you want to try again? (Y/N)");
-//            String option = scanner.nextLine().trim().toUpperCase();
-//            if (option.equals("Y")) {
-//                ownerLogin();
-//            } else {
-//                System.out.println("Exiting Owner login...");
-//            }
-//        }
     }
 
 

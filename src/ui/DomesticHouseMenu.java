@@ -2,11 +2,10 @@ package ui;
 
 import controller.DomesticHouseController;
 import model.Owner;
-import model.residence.Apartment;
 import model.residence.DomesticHouse;
 import model.residence.Residence;
 import model.residence.enums.HouseType;
-import utils.ResidenceUtils;
+import actions.utils.ResidenceUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +21,7 @@ public class DomesticHouseMenu {
 
         HouseType[] types = HouseType.values();
 
-        System.out.println("--- Domestic House Area ---");
+        System.out.println("--- Domestic House Area --- 🏡");
         System.out.println("Lets Rent your house!");
 
         Residence residenceData = ResidenceUtils.collectResidenceData(scanner, owner);

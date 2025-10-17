@@ -18,7 +18,7 @@ public class MainMenu {
         var option = -1;
 
         while (true) {
-            System.out.println("Garibaldi's Real Estate Broker - MAIN MENU");
+            System.out.println("Garibaldi's Real Estate Broker - MAIN MENU 🏡");
             System.out.println("🤓 How can i help you?");
             System.out.println("1 - Renting");
             System.out.println("2 - Tenant Area");
@@ -41,7 +41,7 @@ public class MainMenu {
     }
 
     public void rentingOption() {
-        System.out.println("--- Renting Area ---");
+        System.out.println("--- Renting Area --- 🏠");
         System.out.println("What are you interest in?");
         var option = -1;
 
@@ -72,7 +72,7 @@ public class MainMenu {
         var option = -1;
 
         while (true) {
-            System.out.println("--- Tenant Area ---");
+            System.out.println("--- Tenant Area --- 👱‍♂️");
             System.out.println("Please select an option");
             System.out.println("1 - Login");
             System.out.println("2 - Create account");
@@ -99,7 +99,7 @@ public class MainMenu {
 
 
         while (true) {
-            System.out.println("--- Owner Area ---");
+            System.out.println("--- Owner Area --- 🚹");
             System.out.println("Please select an option");
             System.out.println("1 - Login");
             System.out.println("2 - Create an account");

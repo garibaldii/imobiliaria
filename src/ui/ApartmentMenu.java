@@ -6,7 +6,7 @@ import model.Owner;
 import model.residence.Apartment;
 import model.residence.Residence;
 import model.residence.enums.ApartmentType;
-import utils.ResidenceUtils;
+import actions.utils.ResidenceUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +39,7 @@ public class ApartmentMenu {
 
         ApartmentType[] types = ApartmentType.values();
 
-        System.out.println("--- Apartment Area ---");
+        System.out.println("--- Apartment Area --- 🏣");
         System.out.println("Lets Rent your apartment!");
 
         Residence residenceData = ResidenceUtils.collectResidenceData(scanner, owner);
@@ -62,7 +62,6 @@ public class ApartmentMenu {
             int option = Integer.parseInt(scanner.nextLine());
 
             if (apartmentTypes.get(option) != null) {
-                scanner.nextLine(); // limpar o buffer do Enter
                 selectedType = apartmentTypes.get(option);
             }
         }

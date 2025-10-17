@@ -32,7 +32,7 @@ public class OwnerMenu {
     private final Scanner scanner = new Scanner(System.in);
 
     public void ownerLogin() {
-        System.out.println("--- Owner Login ---");
+        System.out.println("--- Owner Login --- 🔏");
 
         String name = InputValidator.readValidName();
 
@@ -44,22 +44,14 @@ public class OwnerMenu {
             sessionOwner = loggedOwner;
             System.out.println("Login successful! Redirecting to your dashboard...");
             executeOwnerMenu();
-//        } else {
-//            System.out.println("Login failed. Do you want to try again? (Y/N)");
-//            String option = scanner.nextLine().trim().toUpperCase();
-//            if (option.equals("Y")) {
-//                ownerLogin();
-//            } else {
-//                System.out.println("Exiting Owner login...");
-//            }
-//        }
+
     }
 
     public void executeOwnerMenu() {
         var option = -1;
 
         while (true) {
-            System.out.println("Garibaldi's Real Estate Broker: " + "OWNER: " + sessionOwner.getName() + "!");
+            System.out.println("Garibaldi's Real Estate Broker: " + "OWNER: " + sessionOwner.getName() + "! 🏡");
             System.out.println("🤓 How can i help you?");
             System.out.println("1 - Anounce Apartment");
             System.out.println("2 - Anounce Domestic House");

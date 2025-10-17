@@ -5,7 +5,7 @@ import model.Owner;
 import model.residence.Farm;
 import model.residence.Residence;
 import model.residence.enums.FarmType;
-import utils.ResidenceUtils;
+import actions.utils.ResidenceUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +21,7 @@ public class FarmMenu {
 
         FarmType[] types = FarmType.values();
 
-        System.out.println("--- Farm Area ---");
+        System.out.println("--- Farm Area --- 👨‍🌾");
         System.out.println("Let's post your farm! 🐄");
 
         // coletando dados básicos do Residence
