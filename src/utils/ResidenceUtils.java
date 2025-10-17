@@ -1,5 +1,6 @@
 package utils;
 
+import actions.validator.InputValidator;
 import model.Owner;
 import model.residence.Residence;
 
@@ -16,12 +17,11 @@ public class ResidenceUtils {
         System.out.print("Postal Code: ");
         String postalCode = scanner.nextLine();
 
-        System.out.print("Number: ");
-        int number = Integer.parseInt(scanner.nextLine());
+        int number = InputValidator.readPositiveInt();
 
         // --- Dados do aluguel ---
         System.out.print("Rent Price: ");
-        int rentPrice = Integer.parseInt(scanner.nextLine());
+        int rentPrice = InputValidator.readPositiveInt();
 
         boolean rented = false; // inicializa como disponível
 

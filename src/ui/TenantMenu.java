@@ -1,5 +1,6 @@
 package ui;
 
+import actions.validator.InputValidator;
 import controller.TenantController;
 import model.Tenant;
 
@@ -21,11 +22,9 @@ public class TenantMenu {
         System.out.println("Let's create your tenant account 🏠");
         scanner.nextLine(); // limpa buffer
 
-        System.out.print("Name: ");
-        String name = scanner.nextLine();
+        String name = InputValidator.readValidName();
 
-        System.out.print("CPF: ");
-        String cpf = scanner.nextLine();
+        String cpf = InputValidator.readValidCPF();
 
         tenant = new Tenant(name, cpf);
         controller.postTenant(tenant);
@@ -40,10 +39,10 @@ public class TenantMenu {
     }
 
     public void executeTenantMenu() {
-        System.out.println("Garibaldi's Real Estate Broker: " + "WELCOME " + tenant.getName() + "!");
         int option = -1;
 
         while (true) {
+            System.out.println("Garibaldi's Real Estate Broker: " + "WELCOME " + tenant.getName() + "!");
             System.out.println("🏡 How can I help you?");
             System.out.println("1 - View Apartments");
             System.out.println("2 - View Domestic Houses");
@@ -83,13 +82,15 @@ public class TenantMenu {
         System.out.println("✏️ Update your data");
         scanner.nextLine(); // limpa buffer
 
-        System.out.print("New Name (leave blank to keep current): ");
-        String name = scanner.nextLine();
-        if (!name.isEmpty()) tenant.setName(name);
+        String name = InputValidator.readValidName();
 
-        System.out.print("New CPF (leave blank to keep current): ");
-        String cpf = scanner.nextLine();
-        if (!cpf.isEmpty()) tenant.setCpf(cpf);
+        String cpf = InputValidator.readValidCPF();
+
+        Tenant updatedData = new Tenant(name, cpf);
+
+        controller.updateTenantById(tenant.getId(),updatedData);
+
+        System.out.println(updatedData);
 
         System.out.println("✅ Tenant data updated successfully!");
     }
