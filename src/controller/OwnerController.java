@@ -17,21 +17,15 @@ public class OwnerController {
 
     public Owner login(String name, String cpf) {
         if (name == null || name.isBlank() || cpf == null || cpf.isBlank()) {
-            System.out.println("Name and CPF must not be empty.");
-            return null;
+            throw new IllegalArgumentException("Name and CPF must not be empty.");
         }
 
-        Optional<Owner> ownerOpt = owners.stream()
+        return owners.stream()
                 .filter(o -> o.getName().equalsIgnoreCase(name) && o.getCpf().equals(cpf))
-                .findFirst();
-
-        if (ownerOpt.isPresent()) {
-            return ownerOpt.get();
-        } else {
-            System.out.println("Login failed. Owner not found with the given name and CPF.");
-            return null;
-        }
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Login failed. Owner not found with the given name and CPF."));
     }
+
 
 
     // Adiciona um novo owner

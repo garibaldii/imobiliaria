@@ -21,22 +21,15 @@ public class TenantController {
 
     public Tenant login(String name, String cpf) {
         if (name == null || name.isBlank() || cpf == null || cpf.isBlank()) {
-            System.out.println("Name and CPF must not be empty.");
-            return null;
+            throw new IllegalArgumentException("Name and CPF must not be empty.");
         }
 
-        Optional<Tenant> ownerOpt = tenants.stream()
+        return tenants.stream()
                 .filter(o -> o.getName().equalsIgnoreCase(name) && o.getCpf().equals(cpf))
-                .findFirst();
-
-        if (ownerOpt.isPresent()) {
-            System.out.println("Login successful! Welcome " + name + "!");
-            return ownerOpt.get();
-        } else {
-            System.out.println("Login failed. Owner not found with the given name and CPF.");
-            return null;
-        }
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Login failed. Tenant not found with the given name and CPF."));
     }
+
 
 
 
