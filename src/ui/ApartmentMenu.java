@@ -1,6 +1,8 @@
-package view;
+package ui;
+
 
 import controller.ApartmentController;
+import model.Owner;
 import model.residence.Apartment;
 import model.residence.Residence;
 import model.residence.enums.ApartmentType;
@@ -13,30 +15,49 @@ import java.util.Scanner;
 
 public class ApartmentMenu {
 
-    ApartmentController apartmentController = new ApartmentController();
+    ApartmentController apartmentController = ApartmentController.getInstance();
 
     private final Scanner scanner = new Scanner(System.in);
 
 
-    public String getAvailableApartments() {
-        List<Apartment> apartments = apartmentController.getApartments();
+    public void showAvailableApartments() {
+        List<Apartment> apartments = apartmentController.getApartments()
+                .stream()
+                .filter(a -> !a.isRented())
+                .toList();
 
-        return apartments.stream()
-                .filter(a -> !a.isRented()).toString();
+        if (apartments.isEmpty()) {
+            System.out.println("😭 No available apartments at the moment.");
+            return;
+        }
+
+        System.out.println("🏢 Available Apartments:");
+        for (Apartment apt : apartments) {
+            System.out.println("=======================================");
+            System.out.println("Apartment ID: " + apt.getId());
+            System.out.println("Address: " + apt.getPostalCode() + ", No. " + apt.getNumber());
+            System.out.println("Rent Price: R$ " + apt.getRentPrice());
+            System.out.println("Floor Number: " + apt.getFloorNumber());
+            System.out.println("Type: " + apt.getType());
+            System.out.println("Has Elevator: " + (apt.isHasElevator() ? "Yes" : "No"));
+            System.out.println("Has Balcony: " + (apt.isHasBalcony() ? "Yes" : "No"));
+            System.out.println("=======================================\n");
+        }
     }
 
 
-    public void postApartment() {
+
+    public Apartment postApartment(Owner owner) {
 
         ApartmentType[] types = ApartmentType.values();
 
         System.out.println("--- Apartment Area ---");
         System.out.println("Lets Rent your apartment!");
 
-        Residence residenceData = ResidenceUtils.collectResidenceData(scanner);
+        Residence residenceData = ResidenceUtils.collectResidenceData(scanner, owner);
 
         System.out.println("Floor Number: ");
-        int floorNumber = scanner.nextInt();
+        int floorNumber = Integer.parseInt(scanner.nextLine());
 
         ApartmentType selectedType = null;
         while (selectedType == null) {
@@ -50,7 +71,7 @@ public class ApartmentMenu {
                 apartmentTypes.put(i + 1, types[i]);
             }
 
-            int option = scanner.nextInt();
+            int option = Integer.parseInt(scanner.nextLine());
 
             if (apartmentTypes.get(option) != null) {
                 scanner.nextLine(); // limpar o buffer do Enter
@@ -103,9 +124,9 @@ public class ApartmentMenu {
                 hasElevator,
                 hasBalcony
         );
-
-        apartmentController.postApartment(apartment);
-
         System.out.println("Apartment posted with sucess!");
+
+        return apartmentController.postApartment(apartment);
+
     }
 }
