@@ -26,7 +26,6 @@ public class OwnerController {
                 .findFirst();
 
         if (ownerOpt.isPresent()) {
-            System.out.println("Login successful! Welcome " + name + "!");
             return ownerOpt.get();
         } else {
             System.out.println("Login failed. Owner not found with the given name and CPF.");
