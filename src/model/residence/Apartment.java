@@ -25,7 +25,7 @@ public class Apartment extends Residence {
             boolean hasElevator,
             boolean hasBalcony
     ) {
-        super(postalCode, number, owner, rented, rentPrice, condominium);
+        super(postalCode, number, owner, rented, rentPrice);
         this.type = type;
         this.floorNumber = floorNumber;
         this.hasElevator = hasElevator;
@@ -33,8 +33,9 @@ public class Apartment extends Residence {
     }
 
     // Getters e Setters
-    public ApartmentType getType() {
-        return type;
+    @Override
+    public String getType() {
+        return type.getLabel();
     }
 
     public void setType(ApartmentType type) {
@@ -63,5 +64,10 @@ public class Apartment extends Residence {
 
     public void setHasBalcony(boolean hasBalcony) {
         this.hasBalcony = hasBalcony;
+    }
+
+    @Override
+    public int getBrokerFee() {
+        return (int) (getRentPrice() * 1.15);
     }
 }
