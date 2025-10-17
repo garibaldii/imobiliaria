@@ -40,4 +40,8 @@ public class ApartmentController {
         return null; // se não encontrou
     }
 
+
+    public void deleteApartment(Apartment ap) {
+        apartments.remove(ap);
+    }
 }

@@ -15,6 +15,10 @@ public class DomesticHouseController {
         return instance;
     }
 
+    public void deleteHouse(DomesticHouse h) {
+        availableHouses.remove(h);
+    }
+
     public List<DomesticHouse> getAvailableHouses() {
         System.out.println(availableHouses);
         return availableHouses;

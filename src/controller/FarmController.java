@@ -15,6 +15,10 @@ public class FarmController {
 
     List<Farm> farms = new ArrayList<>();
 
+    public void deleteFarm(Farm f) {
+        farms.remove(f);
+    }
+
     public List<Farm> getAllFarms() {
         System.out.println(farms);
         return farms;
