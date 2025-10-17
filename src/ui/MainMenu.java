@@ -1,23 +1,24 @@
-package view;
-
-import controller.ApartmentController;
-import controller.DomesticHouseController;
+package ui;
 
 import java.util.Scanner;
 
 public class MainMenu {
 
-    DomesticHouseController domesticHouseController = new DomesticHouseController();
-    ApartmentController apartmentController = new ApartmentController();
+    //    ApartmentController apartmentController = new ApartmentController();
+    ApartmentMenu apMenu = new ApartmentMenu();
+    OwnerMenu ownerMenu = new OwnerMenu();
+    DomesticHouseMenu houseMenu = new DomesticHouseMenu();
+    TenantMenu tenantMenu = new TenantMenu();
+    FarmMenu farmMenu = new FarmMenu();
 
 
     private final Scanner scanner = new Scanner(System.in);
 
     public void execute() {
-        System.out.println("Garibaldi's Real Estate Broker");
         var option = -1;
 
         while (true) {
+            System.out.println("Garibaldi's Real Estate Broker - MAIN MENU");
             System.out.println("🤓 How can i help you?");
             System.out.println("1 - Renting");
             System.out.println("2 - Tenant Area");
@@ -28,7 +29,7 @@ public class MainMenu {
 
             switch (option) {
                 case 1 -> rentingOption();
-//                case 2 -> TenantOption();
+                case 2 -> tenantOption();
                 case 3 -> userOption();
                 case 4 -> {
                     System.out.println("Thanks for visiting! We appreciate your presence!");
@@ -38,7 +39,6 @@ public class MainMenu {
             }
         }
     }
-
 
     public void rentingOption() {
         System.out.println("--- Renting Area ---");
@@ -54,9 +54,9 @@ public class MainMenu {
             option = scanner.nextInt();
 
             switch (option) {
-                case 1 -> domesticHouseController.getAvailableHouses();
-                case 2 -> apartmentController.getApartments();
-//                case 3 -> ;
+                case 1 -> houseMenu.showAvailableHouses();
+                case 2 -> apMenu.showAvailableApartments();
+                case 3 -> farmMenu.showAvailableFarms();
                 case 4 -> {
                     System.out.println("Returning to main menu...");
                     return;
@@ -66,13 +66,41 @@ public class MainMenu {
         }
     }
 
+    public void tenantOption() {
+
+
+        var option = -1;
+
+        while (true) {
+            System.out.println("--- Tenant Area ---");
+            System.out.println("Please select an option");
+            System.out.println("1 - Login");
+            System.out.println("2 - Create account");
+            System.out.println("3 - Exit");
+
+
+            option = scanner.nextInt();
+
+            switch (option) {
+                case 1 -> System.out.println("On developmenting... 🤓");
+                case 2 -> tenantMenu.registerTenant();
+                case 3 -> {
+                    System.out.println("Exiting tenant area...");
+                    return;
+                }
+                default -> System.out.println("Invalid Option, please choose a valid option in menu");
+            }
+        }
+    }
+
     public void userOption() {
-        System.out.println("--- Owner Area ---");
-        System.out.println("Please select an option");
+
         var option = -1;
 
 
         while (true) {
+            System.out.println("--- Owner Area ---");
+            System.out.println("Please select an option");
             System.out.println("1 - Login");
             System.out.println("2 - Create an account");
             System.out.println("3 - Go Back");
@@ -81,7 +109,7 @@ public class MainMenu {
 
             switch (option) {
 //                case 1 -> ;
-//                case 2 -> ;
+                case 2 -> ownerMenu.registerOwner();
                 case 3 -> {
                     System.out.println("Returning to main menu...");
                     return;
