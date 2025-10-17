@@ -1,6 +1,7 @@
 package ui;
 
 
+import actions.validator.InputValidator;
 import controller.ContractController;
 import controller.OwnerController;
 import controller.TenantController;
@@ -18,11 +19,11 @@ import java.util.Scanner;
 
 public class OwnerMenu {
 
-    OwnerController controller = OwnerController.getInstance();
+    OwnerController controller = new OwnerController();
     TenantController tenantController = TenantController.getInstance();
     ContractController contractController = new ContractController();
 
-    Owner owner;
+    Owner sessionOwner;
 
     ApartmentMenu apMenu = new ApartmentMenu();
     DomesticHouseMenu houseMenu = new DomesticHouseMenu();
@@ -30,11 +31,35 @@ public class OwnerMenu {
 
     private final Scanner scanner = new Scanner(System.in);
 
+    public void ownerLogin() {
+        System.out.println("--- Owner Login ---");
+
+        String name = InputValidator.readValidName();
+
+        String cpf = InputValidator.readValidCPF();
+
+        Owner loggedOwner = controller.login(name, cpf);
+
+
+            sessionOwner = loggedOwner;
+            System.out.println("Login successful! Redirecting to your dashboard...");
+            executeOwnerMenu();
+//        } else {
+//            System.out.println("Login failed. Do you want to try again? (Y/N)");
+//            String option = scanner.nextLine().trim().toUpperCase();
+//            if (option.equals("Y")) {
+//                ownerLogin();
+//            } else {
+//                System.out.println("Exiting Owner login...");
+//            }
+//        }
+    }
+
     public void executeOwnerMenu() {
         var option = -1;
 
         while (true) {
-            System.out.println("Garibaldi's Real Estate Broker: " + "OWNER: " + owner.getName() + "!");
+            System.out.println("Garibaldi's Real Estate Broker: " + "OWNER: " + sessionOwner.getName() + "!");
             System.out.println("🤓 How can i help you?");
             System.out.println("1 - Anounce Apartment");
             System.out.println("2 - Anounce Domestic House");
@@ -48,17 +73,17 @@ public class OwnerMenu {
             switch (option) {
                 case 1 -> {
                     //salva o ap na tabela
-                    Apartment ap = apMenu.postApartment(owner);
+                    Apartment ap = apMenu.postApartment(sessionOwner);
                     //salva o ap no registro do usuário
-                    controller.addResidence(ap, owner.getId());
+                    controller.addResidence(ap, sessionOwner);
                 }
                 case 2 -> {
-                    DomesticHouse house = houseMenu.postHouse(owner);
-                    controller.addResidence(house, owner.getId());
+                    DomesticHouse house = houseMenu.postHouse(sessionOwner);
+                    controller.addResidence(house, sessionOwner);
                 }
                 case 3 -> {
-                    Farm farm = farmMenu.postFarm(owner);
-                    controller.addResidence(farm, owner.getId());
+                    Farm farm = farmMenu.postFarm(sessionOwner);
+                    controller.addResidence(farm, sessionOwner);
                 }
                 case 4 -> showOwnerResidences();
                 case 5 -> updateOwnerData();
@@ -73,45 +98,46 @@ public class OwnerMenu {
 
     public void registerOwner() {
         System.out.println("Let's create your owner account 🤓");
-        scanner.nextLine();
 
-        System.out.print("Name: ");
-        String name = scanner.nextLine();
+        //validacao entrada nome
+        String name = InputValidator.readValidName();
 
-        System.out.print("Phone Number: ");
-        String contactNumber = scanner.nextLine();
+        //validacao entrada numeroTelefone
+        String contactNumber = InputValidator.readValidPhoneNumber();
 
-        System.out.print("CPF: ");
-        String cpf = scanner.nextLine();
+        //validacao entrada cpf
+        String cpf = InputValidator.readValidCPF();
 
-        owner = new Owner(name, contactNumber, cpf);
+        Owner registeredOwner = new Owner(name, contactNumber, cpf);
 
-        controller.postOwner(owner);
+        controller.postOwner(registeredOwner);
 
-        System.out.println(owner);
+
+        System.out.println(registeredOwner);
         System.out.println("You owner account was created with sucess 🤓");
-        System.out.println("We are redirecting you to your owner's screen...");
+        System.out.println("We are redirecting you to login screen...");
 
-        executeOwnerMenu();
+
+        ownerLogin();
     }
 
     public void updateOwnerData() {
         System.out.println("Let's update your owner account 🤓");
 
         System.out.print("Name: ");
-        String name = scanner.nextLine();
+        String name = InputValidator.readValidName();
 
         System.out.print("Phone Number: ");
-        String contactNumber = scanner.nextLine();
+        String contactNumber = InputValidator.readValidPhoneNumber();
 
         System.out.print("CPF: ");
-        String cpf = scanner.nextLine();
+        String cpf = InputValidator.readValidCPF();
 
-        owner = new Owner(name, contactNumber, cpf);
+        sessionOwner = new Owner(name, contactNumber, cpf);
 
-        controller.updateOwnerById(owner.getId(), owner);
+        controller.updateOwnerById(sessionOwner.getId(), sessionOwner);
 
-        System.out.println(owner);
+        System.out.println(sessionOwner);
         System.out.println("You owner account was updated with sucess 🤓");
         System.out.println("We are redirecting you to your owner's screen...");
 
@@ -119,7 +145,7 @@ public class OwnerMenu {
 
     public void showOwnerResidences() {
 
-        if (controller.getResidencesByOwnerId(owner.getId()).isEmpty()) {
+        if (controller.getResidencesByOwner(sessionOwner).isEmpty()) {
             System.out.println("😭 No residences registered []");
             System.out.println("Register them and you could saw it right here 🤓");
             return;
@@ -127,7 +153,7 @@ public class OwnerMenu {
 
         System.out.println("These are yours residences registered here with us! 🤓");
 
-        System.out.println(controller.getResidencesByOwnerId(owner.getId()));
+        System.out.println(controller.getResidencesByOwner(sessionOwner));
 
         var option = -1;
 
@@ -145,7 +171,7 @@ public class OwnerMenu {
                 case 1 -> updateResidenceData();
                 case 2 -> deleteResidence();
                 case 3 -> System.out.println(
-                        owner.getContracts().isEmpty() ? "You have no contracts yet. 🤓" : owner.getContracts()
+                        sessionOwner.getContracts().isEmpty() ? "You have no contracts yet. 🤓" : sessionOwner.getContracts()
                 );
                 case 4 -> {
                     System.out.println("Exiting my residences page...");
@@ -162,7 +188,7 @@ public class OwnerMenu {
         System.out.println("--- DELETE SECTION ---");
         System.out.println("These are yours residences: ");
 
-        List<Residence> residences = controller.getResidencesByOwnerId(owner.getId());
+        List<Residence> residences = controller.getResidencesByOwner(sessionOwner);
 
         System.out.println(residences);
 
@@ -183,7 +209,7 @@ public class OwnerMenu {
                     System.out.println("You can't delete a residence that is rented ☠️");
                 }
 
-                controller.deleteResidenceById(residence, owner.getId());
+                controller.deleteResidenceById(residence, sessionOwner.getId());
                 System.out.println("Residence with id " + id + " was deleted successfully.");
                 break;
             } else {
@@ -197,7 +223,7 @@ public class OwnerMenu {
     public void updateResidenceData() {
 
         List<Tenant> tenants = tenantController.getAllTenants();
-        List<Residence> residences = controller.getResidencesByOwnerId(owner.getId());
+        List<Residence> residences = controller.getResidencesByOwner(sessionOwner);
 
         System.out.println(tenants);
 
@@ -238,7 +264,7 @@ public class OwnerMenu {
                 Residence residence = residenceOpt.get();
 
                 System.out.println("Signing your contract... 📃");
-                Contract c = new Contract(owner, tenant, residence, months);
+                Contract c = new Contract(sessionOwner, tenant, residence, months);
 
                 //alugada
                 residence.setRented(true);
@@ -247,13 +273,16 @@ public class OwnerMenu {
                 tenant.setContract(c);
 
                 //adicionado a lista de contratos
-                owner.getContracts().add(c);
+                sessionOwner.getContracts().add(c);
 
                 contractController.postContract(c);
 
                 System.out.println("Contract Signed with sucess!");
                 System.out.println(c);
 
+                return;
+            } else {
+                System.out.println("ERROR");
                 return;
             }
 

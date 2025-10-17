@@ -10,42 +10,66 @@ import java.util.Optional;
 
 public class OwnerController {
 
-    private static final OwnerController instance = new OwnerController();
-
-    public static OwnerController getInstance(){
-        return instance;
-    }
-
-
 
     //utilizando um meio de armazenamento de dados mais básico, a fim de didática, poderia facilmente estar guardando num banco
     private final List<Owner> owners = new ArrayList<>();
 
+
+    public Owner login(String name, String cpf) {
+        if (name == null || name.isBlank() || cpf == null || cpf.isBlank()) {
+            System.out.println("Name and CPF must not be empty.");
+            return null;
+        }
+
+        Optional<Owner> ownerOpt = owners.stream()
+                .filter(o -> o.getName().equalsIgnoreCase(name) && o.getCpf().equals(cpf))
+                .findFirst();
+
+        if (ownerOpt.isPresent()) {
+            System.out.println("Login successful! Welcome " + name + "!");
+            return ownerOpt.get();
+        } else {
+            System.out.println("Login failed. Owner not found with the given name and CPF.");
+            return null;
+        }
+    }
+
+
     // Adiciona um novo owner
     public Owner postOwner(Owner owner) {
+        String cpf = owner.getCpf();
+
+        boolean cpfExists = owners.stream()
+                .anyMatch(o -> o.getCpf().equals(cpf));
+
+        if (cpfExists) {
+            System.out.println("You already have an account with us");
+            System.out.println("Try loggin 🤓");
+            return null;
+        }
+
         owners.add(owner);
         return owner;
     }
 
-    public Residence addResidence(Residence residence, int ownerId) {
-        Optional<Owner> optOwner = getOwnerById(ownerId);
 
-        if (optOwner.isPresent()) {
-            Owner owner = optOwner.get();
-            owner.getResidences().add(residence);
+    public Residence addResidence(Residence residence, Owner owner) {
 
-            return residence;
-        }
-        return null;
+
+        // garante que a residência sabe quem é o dono
+        residence.setOwner(owner);
+
+        // adiciona ao dono também
+        owner.getResidences().add(residence);
+
+        return residence;
+
+
     }
 
-    public List<Residence> getResidencesByOwnerId(int ownerId) {
-        return getOwnerById(ownerId)
-                .map(Owner::getResidences)
-                .orElseGet(() -> {
-                    System.out.println("Owner not found with ID: " + ownerId);
-                    return List.of(); // retorna lista vazia
-                });
+
+    public List<Residence> getResidencesByOwner(Owner owner) {
+        return owner.getResidences();
     }
 
 
