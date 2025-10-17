@@ -2,9 +2,7 @@ package ui;
 
 
 import actions.validator.InputValidator;
-import controller.ContractController;
-import controller.OwnerController;
-import controller.TenantController;
+import controller.*;
 import model.Contract;
 import model.Owner;
 import model.Tenant;
@@ -22,6 +20,9 @@ public class OwnerMenu {
     OwnerController controller = new OwnerController();
     TenantController tenantController = TenantController.getInstance();
     ContractController contractController = new ContractController();
+    ApartmentController apController = ApartmentController.getInstance();
+    DomesticHouseController domesticHouseController = DomesticHouseController.getInstance();
+    FarmController farmController = FarmController.getInstance();
 
     Owner sessionOwner;
 
@@ -177,7 +178,7 @@ public class OwnerMenu {
 
 
     public void deleteResidence() {
-        System.out.println("--- DELETE SECTION ---");
+        System.out.println("--- DELETE SECTION --- 🗑️");
         System.out.println("These are yours residences: ");
 
         List<Residence> residences = controller.getResidencesByOwner(sessionOwner);
@@ -202,6 +203,24 @@ public class OwnerMenu {
                 }
 
                 controller.deleteResidenceById(residence, sessionOwner.getId());
+
+                //uma outra ideia seria fazer por poliformismo.
+                //adicionar um metodo abstrato delete na classe residence, e reescrevê-lo em cada classe, chamando seu
+                //controlador específico...Porém, no meu entendimento isto misturaria as obrigações da regra de negócio, com
+                //os controladores.
+
+                //esta nao é a melhor forma de se fazer, porém, dado o prazo, é o que consegui pensar até então.
+                //desta forma, as extensoras de residence, irão ser deletadas de seus respectivos bancos de dados...
+                //porém, caso o sistema ficasse mais complexo, teria que adicionar manualmente as "instanceof" dentro de
+                //cada if, não sendo bem escrito.
+                if(residence instanceof  Apartment){
+                    apController.deleteApartment((Apartment) residence);
+                } else if (residence instanceof DomesticHouse) {
+                    domesticHouseController.deleteHouse((DomesticHouse) residence);
+                } else if (residence instanceof Farm) {
+                    farmController.deleteFarm((Farm) residence);
+                }
+
                 System.out.println("Residence with id " + id + " was deleted successfully.");
                 break;
             } else {
