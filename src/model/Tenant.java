@@ -48,8 +48,6 @@ public class Tenant {
         sb.append("\n================ TENANT DETAILS ================\n");
         sb.append("🆔 Tenant ID: ").append(id).append("\n");
         sb.append("🙋 Name: ").append(name).append("\n");
-        sb.append("🪪 CPF: ").append(cpf).append("\n");
-
         if (contract != null) {
             sb.append("📜 Contract Linked: YES\n");
             sb.append("🏠 Residence Type: ").append(contract.getResidence().getClass().getSimpleName()).append("\n");
